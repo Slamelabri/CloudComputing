@@ -6,27 +6,25 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+
       - name: Checkout Repository
         uses: actions/checkout@v2
 
       - name: Update Composer
         run: composer install --prefer-dist --no-progress --no-suggest
 
-      - name: PHPUnit Tests
+      - name: phpunit
         run: vendor/bin/phpunit tests
 
-      - name: Discord notify
-        if: steps.phpunit.outputs.status == 'failure'
-        uses: appleboy/discord-action@master
-        with:
-        webhook_id: 175087105270100000
-        webhook_token: m_x4b80MXeBD5GWlx7XIs6IzHtkA-coNuSNmZB0uOKHEivaPAMxAsoh9h-ym14z9i2ii 
-        message : 'PHPUnit FAILED !'
 
-      - name: Discord notify on success
-        if: success()
-        uses: appleboy/discord-action@master
+
+      - name: Discord notify on failure
+        if: steps.phpunit.outputs.status == 'failure'
+        uses: tsickert/discord-webhook@v5.3.0
         with:
-        webhook_id: 175087105270100000
-        webhook_token: m_x4b80MXeBD5GWlx7XIs6IzHtkA-coNuSNmZB0uOKHEivaPAMxAsoh9h-ym14z9i2ii
-        message: 'PHPUnit ran successfully !'
+          webhook_id: 175087105270100000
+          webhook-url: "https://discord.com/api/webhooks/1175087105270100000/m_x4b80MXeBD5GWlx7XIs6IzHtkA-coNuSNmZB0uOKHEivaPAMxAsoh9h-ym14z9i2ii"
+          message: 'PHPUnit FAILED !'
+
+
+
