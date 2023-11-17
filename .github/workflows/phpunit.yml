@@ -14,3 +14,19 @@ jobs:
 
       - name: PHPUnit Tests
         run: vendor/bin/phpunit tests
+
+      - name: Discord notify
+        if: steps.phpunit.outputs.status == 'failure'
+        uses: appleboy/discord-action@master
+        with:
+        webhook_id: 175087105270100000
+        webhook_token: m_x4b80MXeBD5GWlx7XIs6IzHtkA-coNuSNmZB0uOKHEivaPAMxAsoh9h-ym14z9i2ii 
+        message : 'PHPUnit FAILED !'
+
+      - name: Discord notify on success
+        if: success()
+        uses: appleboy/discord-action@master
+        with:
+        webhook_id: 175087105270100000
+        webhook_token: m_x4b80MXeBD5GWlx7XIs6IzHtkA-coNuSNmZB0uOKHEivaPAMxAsoh9h-ym14z9i2ii
+        message: 'PHPUnit ran successfully !'
