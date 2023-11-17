@@ -1,0 +1,16 @@
+name: PHPUnit Integration
+
+on : [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Update Composer
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: PHPUnit Tests
+        run: vendor/bin/phpunit tests
